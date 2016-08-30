@@ -1,0 +1,8 @@
+{
+    "require": {
+        "marc-mabe/php-enum": "^2.2",
+        "zendframework/zend-validator": "^2.8",
+        "zendframework/zend-filter": "^2.7",
+        "zendframework/zend-eventmanager": "^3.0"
+    }
+}
