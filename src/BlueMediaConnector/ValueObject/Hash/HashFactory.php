@@ -6,11 +6,15 @@
  * Time: 13:14
  */
 
-namespace BlueMediaConnector\ValueObject;
+namespace BlueMediaConnector\ValueObject\Hash;
 
 
+use BlueMediaConnector\ValueObject\Hash;
 use BlueMediaConnector\ValueObject\Hash\Algo\AlgoInterface;
 use BlueMediaConnector\ValueObject\Hash\Algo\Sha256;
+use BlueMediaConnector\ValueObject\InvalidNativeArgumentException;
+use BlueMediaConnector\ValueObject\StringValue;
+use BlueMediaConnector\ValueObject\ValueObjectInterface;
 
 class HashFactory
 {
@@ -46,7 +50,7 @@ class HashFactory
      * @param AlgoInterface|null $algo
      * @return Hash $hash
      */
-    public static function build(array $args, $separator = "|", AlgoInterface $algo = null)
+    public static function build(array $args, StringValue $secret, $separator = "|", AlgoInterface $algo = null)
     {
         if (count($args) == 0) {
             throw new InvalidNativeArgumentException("No parameters to generate hash!", self::ERR_NO_PARAMETERS);
@@ -60,6 +64,8 @@ class HashFactory
             }
             $concatArray[] = $value->toNative();
         });
+
+        $concatArray[] = $secret->toNative();
 
         $algo = $algo ?: self::getHashAlgo();
 
