@@ -74,6 +74,8 @@ $bmService->getEventManager()->attach(MessageReceivedEvent::EVENT_MESSAGE_RECEIV
     $messageArray['transactions'][0]['status'] // pending, success, failure ...
     // ...
 });
+
+$bmService->receiveItnResult($transactionContent);
 ```
 #####3. Dodatkowa konfiguracja
 
