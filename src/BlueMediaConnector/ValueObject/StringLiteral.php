@@ -9,7 +9,7 @@
 namespace BlueMediaConnector\ValueObject;
 
 
-class StringLiteral
+class StringLiteral implements ValueObjectInterface
 {
     use SimpleValueObjectTrait;
 

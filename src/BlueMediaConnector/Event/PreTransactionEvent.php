@@ -9,13 +9,14 @@
 namespace BlueMediaConnector\Event;
 
 
+use BlueMediaConnector\ValueObject\Hash\ArgsTransport\TransactionArgs;
 use BlueMediaConnector\ValueObject\OrderId;
 use Zend\EventManager\Event;
 
 class PreTransactionEvent extends Event
 {
     /**
-     * @var array
+     * @var TransactionArgs
      */
     private $args;
 
@@ -38,9 +39,9 @@ class PreTransactionEvent extends Event
     }
 
     /**
-     * @param array $args
+     * @param TransactionArgs $args
      */
-    public function setArgs(array $args)
+    public function setArgs(TransactionArgs $args)
     {
         $this->args = $args;
         $this->setParam('args', $args);

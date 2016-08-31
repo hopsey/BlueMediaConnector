@@ -13,8 +13,13 @@ class OrderId implements ValueObjectInterface
 {
     use SimpleValueObjectTrait;
 
+    /**
+     * @param string|null orderId
+     * @return OrderId
+     */
     public static function fromNative()
     {
-        return new static(md5(microtime() . rand(0,100000)));
+        $arg = @\func_get_arg(0);
+        return new static($arg ?: md5(microtime() . rand(0,100000)));
     }
 }

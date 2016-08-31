@@ -9,8 +9,6 @@
 namespace BlueMediaConnector\ValueObject;
 
 
-namespace Application\Model\Domain\ValueObject;
-
 use BlueMediaConnector\ValueObject\InvalidNativeArgumentException;
 use BlueMediaConnector\ValueObject\ValueObjectInterface;
 use MabeEnum\Enum as BaseEnum;

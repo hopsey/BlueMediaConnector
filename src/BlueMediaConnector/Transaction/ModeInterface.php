@@ -10,8 +10,9 @@ namespace BlueMediaConnector\Transaction;
 
 
 use BlueMediaConnector\Connector;
+use BlueMediaConnector\ValueObject\Hash\ArgsTransport\TransactionArgs;
 
 interface ModeInterface
 {
-    public function serve(Connector $connector, array $args);
+    public function serve(Connector $connector, TransactionArgs $args);
 }

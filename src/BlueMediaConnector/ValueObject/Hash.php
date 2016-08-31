@@ -16,4 +16,9 @@ final class Hash extends StringValue
         // nie mozna wyciagnac z hasha danych wejsciowych. Error logiczny
         throw new \LogicException("Operation not supported");
     }
+
+    public function __toString()
+    {
+        return (string)$this->value;
+    }
 }

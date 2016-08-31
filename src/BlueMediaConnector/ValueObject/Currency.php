@@ -9,7 +9,6 @@
 namespace BlueMediaConnector\ValueObject;
 
 
-use Application\Model\Domain\ValueObject\Enum;
 
 class Currency extends Enum
 {

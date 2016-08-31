@@ -17,7 +17,7 @@ class IntegerNumber implements ValueObjectInterface
     public function __construct($value)
     {
         if(!is_numeric($value)) {
-            throw new InvalidNativeArgumentException("Value cannot be empty", self::ERR_NOT_INT);
+            throw new InvalidNativeArgumentException("Value is not a number", self::ERR_NOT_INT);
         }
         $this->value = (int)$value;
     }

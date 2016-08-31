@@ -20,6 +20,7 @@ class HashFactory
 {
     const ERR_NO_PARAMETERS = 'noParameters';
     const ERR_INVALID_PARAMETERS = 'invalidParameters';
+    const ERR_INVALID_PARAMETER = 'invalidParameter';
 
     private static $algo;
 
@@ -45,25 +46,26 @@ class HashFactory
 
     /**
      * metoda buduje hash. Jesli nie podano parametru algo, skrypt automatycznie uzyje domyslnego algorytmu.
-     * @param array $args
+     * @param Hash\ArgsTransport\ArgsTransportInterface $args
      * @param string $separator
      * @param AlgoInterface|null $algo
      * @return Hash $hash
      */
-    public static function build(array $args, StringValue $secret, $separator = "|", AlgoInterface $algo = null)
+    public static function build(Hash\ArgsTransport\ArgsTransportInterface $args, StringValue $secret, $separator = "|", AlgoInterface $algo = null)
     {
         if (count($args) == 0) {
             throw new InvalidNativeArgumentException("No parameters to generate hash!", self::ERR_NO_PARAMETERS);
         }
 
         $concatArray = [];
-        array_walk($args, function ($value) use ($concatArray) {
+
+        foreach ($args as $key => $value) {
             if (!$value instanceof ValueObjectInterface) {
                 throw new InvalidNativeArgumentException("All parameters must implement " .
                     ValueObjectInterface::class, self::ERR_INVALID_PARAMETERS);
             }
-            $concatArray[] = $value->toNative();
-        });
+            $concatArray[$key] = $value->toNative();
+        }
 
         $concatArray[] = $secret->toNative();
 

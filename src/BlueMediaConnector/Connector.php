@@ -51,4 +51,20 @@ class Connector
     {
         return $this->secret;
     }
+
+    /**
+     * @return IntegerNumber
+     */
+    public function getServiceId()
+    {
+        return $this->serviceId;
+    }
+
+    /**
+     * @return Url
+     */
+    public function getServiceUrl()
+    {
+        return $this->serviceUrl;
+    }
 }
