@@ -76,6 +76,7 @@ $bmService->getEventManager()->attach(MessageReceivedEvent::EVENT_MESSAGE_RECEIV
 });
 
 $bmService->receiveItnResult($transactionContent);
+
 ```
 #####3. Dodatkowa konfiguracja
 
