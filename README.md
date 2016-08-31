@@ -19,7 +19,7 @@ composer require hopsey/blue-media-connector
 ```
 
 ###II. API
-#####1. Inicjowanie transakcji
+####1. Inicjowanie transakcji
 
 ```php
 use BlueMediaConnector\Transaction\RedirectMode;
@@ -55,7 +55,7 @@ $bmService->getEventManager()->attach(PreTransactionEvent::EVENT_PRE_TRANSACTION
 Ewentualnie można podpiąć się obiektem implementującym ```Zend\EventManager\ListenerAggregateInterface```
 
 
-#####2. ITN - Instant Transaction Notification
+####2. ITN - Instant Transaction Notification
 
 Obsługa zmiany statusu odbywa się w podłączonych do zdarzeń listenerach. Najpierw deifniujemy listener, następnie poprzez
 wywołanie metody ```BmService::receiveItnResult($xmlContent)``` odpalamy event. Metoda sparsuje i przygotuje odpowiedź, sprawdza
@@ -76,9 +76,8 @@ $bmService->getEventManager()->attach(MessageReceivedEvent::EVENT_MESSAGE_RECEIV
 });
 
 $bmService->receiveItnResult($transactionContent);
-
 ```
-#####3. Dodatkowa konfiguracja
+####3. Dodatkowa konfiguracja
 
 1. Algorytm hashowania
 
