@@ -52,6 +52,14 @@ class HashFactory implements HashFactoryInterface
     }
 
     /**
+     * @param AlgoInterface $algo
+     */
+    public function setAlgo(AlgoInterface $algo)
+    {
+        $this->algo = $algo;
+    }
+
+    /**
      * metoda buduje hash. Jesli nie podano parametru algo, skrypt automatycznie uzyje domyslnego algorytmu.
      * @param Hash\ArgsTransport\ArgsTransportInterface $args
      * @return Hash

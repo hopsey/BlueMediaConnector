@@ -80,4 +80,17 @@ class ItnMessage implements MessageInterface
         }
         return null;
     }
+
+    public function toArray()
+    {
+        $array = [
+            'serviceID' => (string)$this->serviceId,
+            'hash' => (string)$this->hash,
+            'transactions' => []
+        ];
+        foreach ($this->transactions as $transaction) {
+            $array['transactions'][] = $transaction->toArray();
+        }
+        return $array;
+    }
 }
