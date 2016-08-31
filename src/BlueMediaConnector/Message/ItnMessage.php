@@ -13,7 +13,7 @@ use BlueMediaConnector\Message\Itn\Transaction;
 use BlueMediaConnector\ValueObject\Hash;
 use BlueMediaConnector\ValueObject\IntegerNumber;
 
-class Itn
+class ItnMessage implements MessageInterface
 {
     /**
      * @var IntegerNumber
@@ -55,5 +55,29 @@ class Itn
     public function getTransactions()
     {
         return $this->transactions;
+    }
+
+    public function computeHash(Hash\HashFactoryInterface $hashFactory)
+    {
+        $args = new Hash\ArgsTransport\ItnArgs();
+        $args['serviceID'] = $this->serviceId;
+        foreach ($this->transactions as $transaction) {
+            $args->addTransaction($transaction);
+        }
+
+        return $hashFactory->build($args);
+    }
+
+    public function isHashValid(Hash\HashFactoryInterface $hashFactory)
+    {
+        return (string)$this->hash == (string)$this->computeHash($hashFactory);
+    }
+
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->{$name};
+        }
+        return null;
     }
 }

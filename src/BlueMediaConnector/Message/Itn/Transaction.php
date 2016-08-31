@@ -7,6 +7,8 @@
  */
 
 namespace BlueMediaConnector\Message\Itn;
+use BlueMediaConnector\Hydrator\StaticHydrator;
+use BlueMediaConnector\Hydrator\ValueObject;
 use BlueMediaConnector\ValueObject\Currency;
 use BlueMediaConnector\ValueObject\CustomerData;
 use BlueMediaConnector\ValueObject\FloatNumber;
@@ -89,5 +91,10 @@ class Transaction
         $this->addressIP = $addressIP;
         $this->title = $title;
         $this->customerData = $customerData;
+    }
+
+    public function toArray()
+    {
+        return StaticHydrator::extract(ValueObject::class, $this);
     }
 }

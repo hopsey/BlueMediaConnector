@@ -75,7 +75,7 @@ class ValueObject implements HydratorInterface
             $property->setAccessible(true);
 
             $name = $property->getName();
-            $value = $property->getValue();
+            $value = $property->getValue($object);
             if (is_object($value) && $value instanceof ValueObjectInterface) {
                 $extractArray[$name] = $value->toNative();
             }

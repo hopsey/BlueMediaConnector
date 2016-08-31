@@ -13,4 +13,4 @@ var_dump($bmService->receiveItnResult(file_get_contents('../test/untitled.xml'))
 
 exit;
 
-$bmService->makeTransaction(new \BlueMediaConnector\Transaction\RedirectMode(), \BlueMediaConnector\ValueObject\FloatNumber::fromNative(10.50));
+$bmService->makeTransaction(new \BlueMediaConnector\Transaction\RedirectMode(), 10.50);

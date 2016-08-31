@@ -17,6 +17,7 @@ class Xml implements TransportInterface
         $json = json_encode($xml);
         $array = json_decode($json, true);
 
+        // TODO ten fragment dotyczy tylko jednej wiadomości. nalezy to stad wyseparować, bo to uniwersalna klasa.
         if (isset($array['transactions']['transaction'])) {
             $array['transactions'] = array_key_exists(0, $array['transactions']['transaction']) ? $array['transactions']['transaction']
             : [$array['transactions']['transaction']];

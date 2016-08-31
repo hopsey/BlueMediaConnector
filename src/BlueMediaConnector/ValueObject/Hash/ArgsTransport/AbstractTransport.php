@@ -9,38 +9,18 @@
 namespace BlueMediaConnector\ValueObject\Hash\ArgsTransport;
 
 
+use BlueMediaConnector\ValueObject\Hash;
+
 abstract class AbstractTransport implements ArgsTransportInterface
 {
-    private $args = [];
+    /**
+     * @var array
+     */
+    protected $args = [];
 
     public function count()
     {
         return count($this->args);
-    }
-
-    public function current()
-    {
-        return current($this->args);
-    }
-
-    public function next()
-    {
-        return next($this->args);
-    }
-
-    public function key()
-    {
-        return key($this->args);
-    }
-
-    public function valid()
-    {
-        return key($this->args) !== null;
-    }
-
-    public function rewind()
-    {
-        return reset($this->args);
     }
 
     public function offsetExists($offset)
@@ -53,6 +33,9 @@ abstract class AbstractTransport implements ArgsTransportInterface
         return $this->args[$offset];
     }
 
+    /**
+     * @return array
+     */
     abstract protected function hashParamsOrder();
 
     public function offsetSet($offset, $value)
@@ -64,8 +47,13 @@ abstract class AbstractTransport implements ArgsTransportInterface
         }
 
         $this->args[$offset] = $value;
-        uksort($this->args, function ($key1, $key2) use ($hashParamOrder) {
-            return array_search($key1, $hashParamOrder) - array_search($key2, $hashParamOrder);
+        $this->orderByKey($this->args, $hashParamOrder);
+    }
+
+    protected function orderByKey(&$array, $paramOrder)
+    {
+        uksort($array, function ($key1, $key2) use ($paramOrder) {
+            return array_search($key1, $paramOrder) - array_search($key2, $paramOrder);
         });
     }
 
@@ -74,4 +62,11 @@ abstract class AbstractTransport implements ArgsTransportInterface
         unset($this->args[$offset]);
     }
 
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->args;
+    }
 }

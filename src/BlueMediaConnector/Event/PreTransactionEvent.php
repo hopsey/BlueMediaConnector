@@ -9,6 +9,8 @@
 namespace BlueMediaConnector\Event;
 
 
+use BlueMediaConnector\Message\MessageInterface;
+use BlueMediaConnector\Message\OutgoingMessageInterface;
 use BlueMediaConnector\ValueObject\Hash\ArgsTransport\TransactionArgs;
 use BlueMediaConnector\ValueObject\OrderId;
 use Zend\EventManager\Event;
@@ -16,9 +18,9 @@ use Zend\EventManager\Event;
 class PreTransactionEvent extends Event
 {
     /**
-     * @var TransactionArgs
+     * @var OutgoingMessageInterface
      */
-    private $args;
+    private $message;
 
     /**
      * @var OrderId
@@ -39,11 +41,11 @@ class PreTransactionEvent extends Event
     }
 
     /**
-     * @param TransactionArgs $args
+     * @param OutgoingMessageInterface $message
      */
-    public function setArgs(TransactionArgs $args)
+    public function setMessage(OutgoingMessageInterface $message)
     {
-        $this->args = $args;
-        $this->setParam('args', $args);
+        $this->message = $message;
+        $this->setParam('message', $message);
     }
 }

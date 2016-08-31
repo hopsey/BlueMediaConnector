@@ -14,7 +14,7 @@ class TransactionArgs extends AbstractTransport
     protected function hashParamsOrder()
     {
         return [
-            'ServiceId', 'OrderId', 'Amount', 'Description', 'GatewayId', 'Currency', 'CustomerEmail', 'ValidityTime', 'LinkValidityTime', 'Hash'
+            'ServiceId', 'OrderId', 'Amount', 'Description', 'GatewayId', 'Currency', 'CustomerEmail', 'ValidityTime', 'LinkValidityTime'
         ];
     }
 }

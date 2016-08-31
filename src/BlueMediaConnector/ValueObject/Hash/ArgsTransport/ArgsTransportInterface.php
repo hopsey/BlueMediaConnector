@@ -9,5 +9,12 @@
 namespace BlueMediaConnector\ValueObject\Hash\ArgsTransport;
 
 
-interface ArgsTransportInterface extends \ArrayAccess, \Iterator, \Countable
-{}
+use BlueMediaConnector\ValueObject\Hash;
+
+interface ArgsTransportInterface extends \ArrayAccess, \Countable
+{
+    /**
+     * @return array
+     */
+    public function toArray();
+}

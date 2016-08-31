@@ -9,6 +9,7 @@
 namespace BlueMediaConnector;
 
 
+use BlueMediaConnector\ValueObject\Hash\HashFactory;
 use BlueMediaConnector\ValueObject\IntegerNumber;
 use BlueMediaConnector\ValueObject\StringValue;
 use BlueMediaConnector\ValueObject\Url;
@@ -29,6 +30,10 @@ final class Factory
             StringValue::fromNative($secret)
         );
 
-        return new BMService($connector);
+        $bmService = new BMService($connector);
+        $bmService->setHashFactory(new HashFactory(
+            $connector->getSecret()
+        ));
+        return $bmService;
     }
 }
