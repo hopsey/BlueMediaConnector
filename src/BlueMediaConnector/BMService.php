@@ -20,6 +20,7 @@ use BlueMediaConnector\Message\ItnMessage;
 use BlueMediaConnector\Transaction\ModeInterface;
 use BlueMediaConnector\Transport\TransportInterface;
 use BlueMediaConnector\Transport\Xml;
+use BlueMediaConnector\ValueObject\Amount;
 use BlueMediaConnector\ValueObject\Currency;
 use BlueMediaConnector\ValueObject\CustomerData;
 use BlueMediaConnector\ValueObject\Email;
@@ -100,7 +101,7 @@ class BMService
         $currency = null, $customerEmail = null)
     {
         $initTransactionMessage = new InitTransactionMessage(
-            FloatNumber::fromNative($amount),
+            Amount::fromNative($amount),
             $this->connector->getServiceId(),
             $description === null ? null : StringValue::fromNative($description),
             $gatewayId === null ? null : IntegerNumber::fromNative($gatewayId),

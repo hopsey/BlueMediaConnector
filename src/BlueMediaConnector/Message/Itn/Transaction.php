@@ -9,6 +9,7 @@
 namespace BlueMediaConnector\Message\Itn;
 use BlueMediaConnector\Hydrator\StaticHydrator;
 use BlueMediaConnector\Hydrator\ValueObject;
+use BlueMediaConnector\ValueObject\Amount;
 use BlueMediaConnector\ValueObject\Currency;
 use BlueMediaConnector\ValueObject\CustomerData;
 use BlueMediaConnector\ValueObject\FloatNumber;
@@ -70,7 +71,7 @@ class Transaction
      * Transaction constructor.
      * @param OrderId $orderID
      * @param StringValue $remoteID
-     * @param FloatNumber $amount
+     * @param Amount $amount
      * @param Currency $currency
      * @param PaymentStatus $paymentStatus
      * @param IntegerNumber|null $gatewayID
@@ -78,7 +79,7 @@ class Transaction
      * @param StringValue|null $title
      * @param CustomerData|null $customerData
      */
-    public function __construct(OrderId $orderID, StringValue $remoteID, FloatNumber $amount, Currency $currency,
+    public function __construct(OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency,
         PaymentStatus $paymentStatus, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
         CustomerData $customerData = null)
     {

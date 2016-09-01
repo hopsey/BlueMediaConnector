@@ -9,6 +9,7 @@
 namespace BlueMediaConnector\Message;
 
 
+use BlueMediaConnector\ValueObject\Amount;
 use BlueMediaConnector\ValueObject\Currency;
 use BlueMediaConnector\ValueObject\Email;
 use BlueMediaConnector\ValueObject\FloatNumber;
@@ -21,7 +22,7 @@ use BlueMediaConnector\ValueObject\StringValue;
 class InitTransactionMessage implements OutgoingMessageInterface
 {
     /**
-     * @var FloatNumber
+     * @var Amount
      */
     private $amount;
 
@@ -58,8 +59,8 @@ class InitTransactionMessage implements OutgoingMessageInterface
     private $mappedFieldsToExecute = [
         'amount' => 'Amount',
         'serviceId' => 'ServiceID',
-        'orderId' => 'OrderId',
-        'gatewayID' => 'OrderID',
+        'orderId' => 'OrderID',
+        'gatewayID' => 'GatewayID',
         'description' => 'Description',
         'currency' => 'Currency',
         'customerEmail' => 'CustomerEmail',
@@ -67,14 +68,14 @@ class InitTransactionMessage implements OutgoingMessageInterface
 
     /**
      * InitTransactionMessage constructor.
-     * @param FloatNumber $amount
+     * @param Amount $amount
      * @param IntegerNumber $serviceId
      * @param StringValue $description
      * @param IntegerNumber $gatewayID
      * @param Currency $currency
      * @param Email $customerEmail
      */
-    public function __construct(FloatNumber $amount, IntegerNumber $serviceId, StringValue $description = null,
+    public function __construct(Amount $amount, IntegerNumber $serviceId, StringValue $description = null,
                                 IntegerNumber $gatewayID = null, Currency $currency = null, Email $customerEmail = null)
     {
         $this->orderId = OrderId::fromNative();
@@ -103,14 +104,15 @@ class InitTransactionMessage implements OutgoingMessageInterface
 
     public function getArrayToExecute()
     {
-        $args = [];
+        $args = new TransactionArgs();
+
         foreach ($this->mappedFieldsToExecute as $fieldLocal => $fieldExternal) {
             if ($this->{$fieldLocal} === null) {
                 continue;
             }
             $args[$fieldExternal] = $this->{$fieldLocal};
         }
-        return $args;
+        return $args->toArray();
     }
 
 
