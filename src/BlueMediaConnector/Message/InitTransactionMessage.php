@@ -57,7 +57,7 @@ class InitTransactionMessage implements OutgoingMessageInterface
 
     private $mappedFieldsToExecute = [
         'amount' => 'Amount',
-        'serviceId' => 'ServiceId',
+        'serviceId' => 'ServiceID',
         'orderId' => 'OrderId',
         'gatewayID' => 'OrderID',
         'description' => 'Description',
