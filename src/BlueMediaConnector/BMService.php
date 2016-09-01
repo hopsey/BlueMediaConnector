@@ -118,7 +118,7 @@ class BMService
 
     public function receiveItnResult($document)
     {
-        $documentArray = self::getTransport()->parse($document);
+        $documentArray = self::getTransport()->decode($document);
 
         // TODO zaimplementować fabrykę do budowania wiadomości bazujących na otrzymanych danych
         $itn = new ItnMessage(

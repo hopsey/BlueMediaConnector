@@ -11,5 +11,6 @@ namespace BlueMediaConnector\Transport;
 
 interface TransportInterface
 {
-    public function parse($content);
+    public function decode($content);
+    public function encode(array $array);
 }

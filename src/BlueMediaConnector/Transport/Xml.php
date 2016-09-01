@@ -9,9 +9,11 @@
 namespace BlueMediaConnector\Transport;
 
 
+use LaLit\Array2XML;
+
 class Xml implements TransportInterface
 {
-    public function parse($content)
+    public function decode($content)
     {
         $xml = simplexml_load_string($content, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
@@ -23,5 +25,11 @@ class Xml implements TransportInterface
             : [$array['transactions']['transaction']];
         }
         return $array;
+    }
+
+    public function encode(array $array)
+    {
+        $rootNode = key($array);
+        return Array2XML::createXML($rootNode, $array[$rootNode])->saveXML();
     }
 }

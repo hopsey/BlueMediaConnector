@@ -19,7 +19,7 @@ use BlueMediaConnector\ValueObject\IntegerNumber;
 use BlueMediaConnector\ValueObject\OrderId;
 use BlueMediaConnector\ValueObject\StringValue;
 
-class InitTransactionMessage implements OutgoingMessageInterface
+class InitTransactionMessage extends AbstractMessage implements OutgoingMessageInterface
 {
     /**
      * @var Amount
@@ -88,7 +88,7 @@ class InitTransactionMessage implements OutgoingMessageInterface
     }
 
 
-    public function computeHash(HashFactoryInterface $hashFactory)
+    protected function getArgsToComputeHash()
     {
         $args = new TransactionArgs();
 
@@ -99,7 +99,7 @@ class InitTransactionMessage implements OutgoingMessageInterface
             $args[$fieldExternal] = $this->{$fieldLocal};
         }
 
-        return $hashFactory->build($args);
+        return $args;
     }
 
     public function getArrayToExecute()
