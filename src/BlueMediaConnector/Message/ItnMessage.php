@@ -9,68 +9,131 @@
 namespace BlueMediaConnector\Message;
 
 
-use BlueMediaConnector\Message\Itn\Transaction;
+use BlueMediaConnector\Hydrator\StaticHydrator;
+use BlueMediaConnector\Hydrator\ValueObject;
+use BlueMediaConnector\ValueObject\Amount;
+use BlueMediaConnector\ValueObject\Currency;
+use BlueMediaConnector\ValueObject\CustomerData;
+use BlueMediaConnector\ValueObject\DateTime;
 use BlueMediaConnector\ValueObject\Hash;
 use BlueMediaConnector\ValueObject\IntegerNumber;
+use BlueMediaConnector\ValueObject\OrderId;
+use BlueMediaConnector\ValueObject\PaymentStatus;
+use BlueMediaConnector\ValueObject\StringValue;
 
 class ItnMessage extends AbstractMessage
 {
     /**
      * @var IntegerNumber
      */
-    private $serviceId;
+    private $serviceID;
+
+    /**
+     * @var OrderId
+     */
+    private $orderID;
+
+    /**
+     * @var StringValue
+     */
+    private $remoteID;
+
+    /**
+     * @var Amount
+     */
+    private $amount;
+
+    /**
+     * @var Currency
+     */
+    private $currency;
+
+    /**
+     * @var PaymentStatus
+     */
+    private $paymentStatus;
+
+    /**
+     * @var DateTime
+     */
+    private $paymentDate;
+
+    /**
+     * @var StringValue
+     */
+    private $paymentStatusDetails;
+
+    /**
+     * @var IntegerNumber|null
+     */
+    private $gatewayID = null;
+
+    /**
+     * @var StringValue|null
+     */
+    private $addressIP = null;
+
+    /**
+     * @var StringValue|null
+     */
+    private $title = null;
+
+    /**
+     * @var CustomerData|null
+     */
+    private $customerData = null;
 
     /**
      * @var Hash
      */
-    private $hash;
+    private $docHash;
 
     /**
-     * @var Transaction[]
+     * ItnMessage constructor.
+     * @param IntegerNumber $serviceID
+     * @param OrderId $orderID
+     * @param StringValue $remoteID
+     * @param Amount $amount
+     * @param Currency $currency
+     * @param PaymentStatus $paymentStatus
+     * @param IntegerNumber|null $gatewayID
+     * @param StringValue|null $addressIP
+     * @param StringValue|null $title
+     * @param CustomerData|null $customerData
+     * @param Hash $docHash
      */
-    private $transactions = [];
-
-    /**
-     * Itn constructor.
-     * @param IntegerNumber $serviceId
-     * @param Hash $hash
-     */
-    public function __construct(IntegerNumber $serviceId, Hash $hash)
+    public function __construct(IntegerNumber $serviceID, OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency, DateTime $paymentDate,
+        PaymentStatus $paymentStatus, StringValue $paymentStatusDetails, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
+        CustomerData $customerData = null, Hash $docHash)
     {
-        $this->serviceId = $serviceId;
-        $this->hash = $hash;
-    }
-
-    /**
-     * @param Transaction $transaction
-     */
-    public function attachTransaction(Transaction $transaction)
-    {
-        $this->transactions[] = $transaction;
-    }
-
-    /**
-     * @return Itn\Transaction[]
-     */
-    public function getTransactions()
-    {
-        return $this->transactions;
+        $this->serviceID = $serviceID;
+        $this->orderID = $orderID;
+        $this->remoteID = $remoteID;
+        $this->amount = $amount;
+        $this->currency = $currency;
+        $this->paymentDate = $paymentDate;
+        $this->paymentStatus = $paymentStatus;
+        $this->paymentStatusDetails = $paymentStatusDetails;
+        $this->gatewayID = $gatewayID;
+        $this->addressIP = $addressIP;
+        $this->title = $title;
+        $this->customerData = $customerData;
+        $this->docHash = $docHash;
     }
 
     protected function getArgsToComputeHash()
     {
         $args = new Hash\ArgsTransport\ItnArgs();
-        $args['serviceID'] = $this->serviceId;
-        foreach ($this->transactions as $transaction) {
-            $args->addTransaction($transaction);
+        foreach (get_object_vars($this) as $key => $value) {
+            $args[$key] = $value;
         }
-
+        $args['customerData'] = $this->customerData->toNative();
         return $args;
     }
 
     public function isHashValid(Hash\HashFactoryInterface $hashFactory)
     {
-        return (string)$this->hash == (string)$this->computeHash($hashFactory);
+        return (string)$this->docHash == (string)$this->computeHash($hashFactory);
     }
 
     public function __get($name)
@@ -83,14 +146,6 @@ class ItnMessage extends AbstractMessage
 
     public function toArray()
     {
-        $array = [
-            'serviceID' => (string)$this->serviceId,
-            'hash' => (string)$this->hash,
-            'transactions' => []
-        ];
-        foreach ($this->transactions as $transaction) {
-            $array['transactions'][] = $transaction->toArray();
-        }
-        return $array;
+        return StaticHydrator::extract(ValueObject::class, $this);
     }
 }

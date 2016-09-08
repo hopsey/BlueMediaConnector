@@ -9,54 +9,29 @@
 namespace BlueMediaConnector\ValueObject\Hash\ArgsTransport;
 
 
-use BlueMediaConnector\Message\Itn\Transaction;
-
 class ItnArgs extends AbstractTransport
 {
     private static $customerData = [
-        'fName', 'lName', 'streetName', 'streetHouseNo', 'streetStaircaseNo', 'streetPremiseNo', 'postalCode', 'city', 'nrb'
+        'fName', 'lName', 'streetName', 'streetHouseNo', 'streetStaircaseNo', 'streetPremiseNo', 'postalCode', 'city', 'nrb', 'senderData'
     ];
-
-    private static $transactionData = ['orderID', 'remoteID', 'amount', 'currency', 'gatewayID', 'paymentDate', 'paymentStatus',
-        'paymentStatusDetails', 'addressIP', 'title', 'customerData'];
-
-    /**
-     * @var Transaction[]
-     */
-    private $transactions = [];
-
-    /**
-     * @param Transaction $transaction
-     */
-    public function addTransaction(Transaction $transaction)
-    {
-        $this->transactions[] = $transaction;
-    }
 
     protected function hashParamsOrder()
     {
-        return ['serviceID'];
+        return ['serviceID', 'orderID', 'remoteID', 'amount', 'currency', 'gatewayID', 'paymentDate', 'paymentStatus', 'paymentStatusDetails',
+            'paymentStatusDetails', 'addressIP', 'title', 'customerData'];
     }
 
     public function toArray()
     {
         $result = $this->args;
-        foreach ($this->transactions as $key => $transaction) {
-            $transactionArray = $transaction->toArray();
-            $this->orderByKey($transactionArray, self::$transactionData);
 
-            foreach ($transactionArray as $keyT => $value) {
-                $result[$keyT . "_" . $key] = $value;
-            }
+        if (isset($result['customerData'])) {
+            $customerData = $result['customerData'];
+            unset($result['customerData']);
+            $this->orderByKey($customerData, self::$customerData);
 
-            if (isset($result['customerData_' . $key])) {
-                $customerData = $result['customerData_' . $key];
-                unset($result['customerData_' . $key]);
-                $this->orderByKey($customerData, self::$customerData);
-
-                foreach ($customerData as $cKey => $data) {
-                    $result[$cKey . "_" . $key] = $data;;
-                }
+            foreach ($customerData as $cKey => $data) {
+                $result[$cKey] = $data;
             }
         }
         return $result;

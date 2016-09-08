@@ -118,35 +118,24 @@ class BMService
 
     public function receiveItnResult($document)
     {
-        $documentArray = self::getTransport()->decode($document);
+        $transaction = self::getTransport()->decode($document);
 
         // TODO zaimplementować fabrykę do budowania wiadomości bazujących na otrzymanych danych
-        $itn = new ItnMessage(
-            IntegerNumber::fromNative($documentArray['serviceID']),
-            Hash::fromNative($documentArray['hash'])
-        );
 
-        if (count($documentArray['transactions']) > 0) {
-            foreach ($documentArray['transactions'] as $transaction) {
-
-                if (isset($transaction['customerData']) && is_array($transaction['customerData'])) {
-                    $transaction['customerData'] = StaticHydrator::build(ValueObject::class, CustomerData::class, $transaction['customerData']);
-                }
-
-                $itn->attachTransaction(
-                    StaticHydrator::build(ValueObject::class, Itn\Transaction::class, $transaction)
-                );
-            }
+        if (isset($transaction['customerData']) && is_array($transaction['customerData'])) {
+            $transaction['customerData'] = StaticHydrator::build(ValueObject::class, CustomerData::class, $transaction['customerData']);
         }
 
+        $transaction = StaticHydrator::build(ValueObject::class, ItnMessage::class, $transaction);
+
         // TODO odseparować logikę obsługującą odebranie wiadomości do oddzielnego serwisu, aby można to było ponownie wykorzystać
-        $hash = $itn->computeHash($this->hashFactory);
-        if ((string)$hash != (string)$itn->hash) {
-            throw new InvalidHashException($itn);
+        $hash = $transaction->computeHash($this->hashFactory);
+        if ((string)$hash != (string)$transaction->docHash) {
+            throw new InvalidHashException($transaction);
         }
 
         $event = new MessageReceivedEvent();
-        $event->setMessage($itn);
+        $event->setMessage($transaction);
         $this->getEventManager()->triggerEvent($event);
     }
 }

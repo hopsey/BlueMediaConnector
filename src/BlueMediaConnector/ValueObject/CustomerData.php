@@ -78,6 +78,11 @@ class CustomerData implements ValueObjectInterface
     protected $nrb = null;
 
     /**
+     * @var StringValue|null
+     */
+    protected $senderData = null;
+
+    /**
      * CustomerData constructor.
      * @param StringValue|null $fName
      * @param StringValue|null $lName
@@ -88,10 +93,11 @@ class CustomerData implements ValueObjectInterface
      * @param StringValue|null $postalCode
      * @param StringValue|null $city
      * @param StringValue|null $nrb
+     * @param StringValue|null $senderData
      */
     public function __construct(StringValue $fName = null, StringValue $lName = null, StringValue $streetName = null,
         StringValue $streetHouseNo = null, StringValue $streetStaircaseNo = null, StringValue $streetPremiseNo = null,
-        StringValue $postalCode = null, StringValue $city = null, StringValue $nrb = null)
+        StringValue $postalCode = null, StringValue $city = null, StringValue $nrb = null, StringValue $senderData = null)
     {
         $this->fName = $fName;
         $this->lName = $lName;
@@ -102,6 +108,7 @@ class CustomerData implements ValueObjectInterface
         $this->postalCode = $postalCode;
         $this->city = $city;
         $this->nrb = $nrb;
+        $this->senderData = $senderData;
     }
 
 

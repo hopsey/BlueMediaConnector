@@ -43,7 +43,7 @@ abstract class AbstractTransport implements ArgsTransportInterface
         $hashParamOrder = $this->hashParamsOrder();
 
         if (!in_array($offset, $hashParamOrder)) {
-            throw new \InvalidArgumentException("Invalid parameter " . $offset);
+            return;
         }
 
         $this->args[$offset] = $value;
