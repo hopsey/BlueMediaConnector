@@ -20,6 +20,7 @@ use BlueMediaConnector\ValueObject\IntegerNumber;
 use BlueMediaConnector\ValueObject\OrderId;
 use BlueMediaConnector\ValueObject\PaymentStatus;
 use BlueMediaConnector\ValueObject\StringValue;
+use BlueMediaConnector\ValueObject\ValueObjectInterface;
 
 class ItnMessage extends AbstractMessage
 {
@@ -146,6 +147,17 @@ class ItnMessage extends AbstractMessage
 
     public function toArray()
     {
-        return StaticHydrator::extract(ValueObject::class, $this);
+        $properties = get_object_vars($this);
+        unset($properties['docHash']);
+        unset($properties['customerData']);
+        $array = [];
+        foreach ($properties as $propertyName => $property) {
+            if (!is_object($property) && !$property instanceof ValueObjectInterface) {
+                continue;
+            }
+            $array[$propertyName] = $property->toNative();
+        }
+        $array['customerData'] = StaticHydrator::extract(ValueObject::class, $this->customerData);
+        return $array;
     }
 }
