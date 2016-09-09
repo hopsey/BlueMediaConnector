@@ -128,7 +128,9 @@ class ItnMessage extends AbstractMessage
         foreach (get_object_vars($this) as $key => $value) {
             $args[$key] = $value;
         }
-        $args['customerData'] = $this->customerData->toNative();
+        if ($this->customerData !== null) {
+            $args['customerData'] = $this->customerData->toNative();
+        }
         return $args;
     }
 
