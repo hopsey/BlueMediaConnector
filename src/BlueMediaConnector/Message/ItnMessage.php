@@ -126,6 +126,9 @@ class ItnMessage extends AbstractMessage
     {
         $args = new Hash\ArgsTransport\ItnArgs();
         foreach (get_object_vars($this) as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
             $args[$key] = $value;
         }
         if ($this->customerData !== null) {
