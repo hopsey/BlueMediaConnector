@@ -125,8 +125,13 @@ class ItnMessage extends AbstractMessage
     protected function getArgsToComputeHash()
     {
         $args = new Hash\ArgsTransport\ItnArgs();
-        foreach (get_object_vars($this) as $key => $value) {
-            if (null === $value) {
+
+        $properties = get_object_vars($this);
+        unset($properties['docHash']);
+        unset($properties['customerData']);
+
+        foreach ($properties as $key => $value) {
+            if (null === $value || (!is_object($value) && !$value instanceof ValueObjectInterface)) {
                 continue;
             }
             $args[$key] = $value;
