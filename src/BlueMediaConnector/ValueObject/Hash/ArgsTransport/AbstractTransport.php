@@ -42,6 +42,10 @@ abstract class AbstractTransport implements ArgsTransportInterface
     {
         $hashParamOrder = $this->hashParamsOrder();
 
+        if ($value === null || $value == "") {
+            return;
+        }
+
         if (!in_array($offset, $hashParamOrder)) {
             return;
         }
