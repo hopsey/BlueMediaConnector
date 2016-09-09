@@ -29,7 +29,9 @@ class Xml implements TransportInterface
 
     public function encode(array $array)
     {
-        $rootNode = key($array);
-        return Array2XML::createXML($rootNode, $array[$rootNode])->saveXML();
+        $soapArray = [
+            'soap:Body' => $array
+        ];
+        return Array2XML::createXML('soap:Envelope', $soapArray)->saveXML();
     }
 }

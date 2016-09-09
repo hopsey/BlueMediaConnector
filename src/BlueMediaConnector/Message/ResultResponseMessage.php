@@ -10,45 +10,48 @@ namespace BlueMediaConnector\Message;
 
 
 use BlueMediaConnector\Message\ResultResponse\TransactionResult;
+use BlueMediaConnector\ValueObject\ConfirmationResult;
 use BlueMediaConnector\ValueObject\Hash\ArgsTransport\ResultResponseArgs;
 use BlueMediaConnector\ValueObject\IntegerNumber;
+use BlueMediaConnector\ValueObject\OrderId;
 
 class ResultResponseMessage extends AbstractMessage implements OutgoingMessageInterface
 {
     /**
      * @var IntegerNumber
      */
-    private $serviceId;
+    private $serviceID;
 
     /**
-     * @var TransactionResult[]
+     * @var OrderId
      */
-    private $results = [];
+    private $orderID;
 
     /**
-     * ResultResponseMessage constructor.
+     * @var ConfirmationResult
+     */
+    private $confirmation;
+
+    /**
+     * TransactionResult constructor.
      * @param IntegerNumber $serviceId
+     * @param OrderId $orderId
+     * @param ConfirmationResult $confirmation
      */
-    public function __construct(IntegerNumber $serviceId)
+    public function __construct(IntegerNumber $serviceId, OrderId $orderId, ConfirmationResult $confirmation)
     {
-        $this->serviceId = $serviceId;
+        $this->serviceID = $serviceId;
+        $this->orderID = $orderId;
+        $this->confirmation = $confirmation;
     }
 
-    /**
-     * @param TransactionResult $result
-     */
-    public function attachTransactionResult(TransactionResult $result)
-    {
-        $this->results[] = $result;
-    }
 
     protected function getArgsToComputeHash()
     {
         $args = new ResultResponseArgs();
-        $args['serviceID'] = $this->serviceId;
-        foreach ($this->results as $transaction) {
-            $args->attachTransactionResult($transaction);
-        }
+        $args['serviceID'] = $this->serviceID;
+        $args['orderID'] = $this->orderID;
+        $args['confirmation'] = $this->confirmation;
 
         return $args;
     }
@@ -56,19 +59,12 @@ class ResultResponseMessage extends AbstractMessage implements OutgoingMessageIn
     public function getArrayToExecute()
     {
         $structure = [
-            'confirmationList' => [
-                'serviceID' => (string)$this->serviceId,
-                'transactionsConfirmations' => [
-                    'transactionConfirmed' => []
-                ]
+            'Confirmation' => [
+                'serviceID' => (string)$this->serviceID,
+                'orderID' => (string)$this->orderID,
+                'confirmation' => (string)$this->confirmation,
             ]
         ];
-
-        if (count($this->results) > 0) {
-            foreach ($this->results as $result) {
-                $structure['confirmationList']['transactionsConfirmations']['transactionConfirmed'][] = $result->toArray();
-            }
-        }
 
         return $structure;
     }
