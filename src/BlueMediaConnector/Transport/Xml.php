@@ -30,8 +30,12 @@ class Xml implements TransportInterface
     public function encode(array $array)
     {
         $soapArray = [
-            'soap:Body' => $array
+            '@attributes' => [
+                'xmlns:env' => 'http://schemas.xmlsoap.org/soap/envelope/'
+            ],
+            'env:Header' => [],
+            'env:Body' => $array
         ];
-        return Array2XML::createXML('soap:Envelope', $soapArray)->saveXML();
+        return Array2XML::createXML('env:Envelope', $soapArray)->saveXML();
     }
 }
