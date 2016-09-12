@@ -60,6 +60,9 @@ class ResultResponseMessage extends AbstractMessage implements OutgoingMessageIn
     {
         $structure = [
             'Confirmation' => [
+                '@attributes' => [
+                    "xmlns" => "http://company.corp/service"
+                ],
                 'serviceID' => (string)$this->serviceID,
                 'orderID' => (string)$this->orderID,
                 'confirmation' => (string)$this->confirmation,
