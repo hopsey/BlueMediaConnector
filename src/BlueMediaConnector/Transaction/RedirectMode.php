@@ -30,5 +30,6 @@ class RedirectMode implements ModeInterface
         $argsArray['Hash'] = (string)$message->computeHash($hashFactory);
 
         header("Location: " . (string)$connector->getServiceUrl() . "?" . \http_build_query($argsArray));
+        exit;
     }
 }
