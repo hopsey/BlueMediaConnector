@@ -106,7 +106,7 @@ class BMService
             $description === null ? null : StringValue::fromNative($description),
             $gatewayId === null ? null : IntegerNumber::fromNative($gatewayId),
             $currency === null ? null : Currency::fromNative($currency),
-            $customerEmail === null ? null : Email::fromNative()
+            $customerEmail === null ? null : Email::fromNative($customerEmail)
         );
 
         $event = new PreTransactionEvent($initTransactionMessage->orderId);
