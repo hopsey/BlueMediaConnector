@@ -40,7 +40,7 @@ class Xml implements TransportInterface
             'serviceID' => $array['serviceID'],
             'transactionsConfirmations' => [
                 'transactionConfirmed' => [
-                    'rderId' => $array['orderID'],
+                    'orderID' => $array['orderID'],
                     'confirmation' => $array['confirmation']
                 ]
             ],
