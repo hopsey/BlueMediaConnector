@@ -22,6 +22,7 @@ class Xml implements TransportInterface
 
         $row = $array['transactions']['transaction'];
         $row['serviceID'] = $array['serviceID'];
+        $row['docHash'] = $array['hash'];
         return $row;
 
 
