@@ -139,6 +139,9 @@ class ItnMessage extends AbstractMessage
         if ($this->customerData !== null) {
             $args['customerData'] = $this->customerData->toNative();
         }
+
+        $args['paymentDate'] = preg_replace('/[\s\-\:]+/', '', $args['paymentDate']->toNative());
+
         return $args;
     }
 

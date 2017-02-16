@@ -116,6 +116,10 @@ class BMService
         $mode->serve($this->connector, $this->hashFactory, $initTransactionMessage);
     }
 
+    /**
+     * @param $document
+     * @return ItnMessage
+     */
     public function receiveItnResult($document)
     {
         $transaction = self::getTransport()->decode($document);
@@ -137,5 +141,7 @@ class BMService
         $event = new MessageReceivedEvent();
         $event->setMessage($transaction);
         $this->getEventManager()->triggerEvent($event);
+
+        return $transaction;
     }
 }

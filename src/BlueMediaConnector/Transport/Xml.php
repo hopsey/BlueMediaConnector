@@ -20,6 +20,11 @@ class Xml implements TransportInterface
         $json = json_encode($xml);
         $array = json_decode($json, true);
 
+        $row = $array['transactions']['transaction'];
+        $row['serviceID'] = $array['serviceID'];
+        return $row;
+
+
         // TODO ten fragment dotyczy tylko jednej wiadomości. nalezy to stad wyseparować, bo to uniwersalna klasa.
         $array = $array['Body']['Transaction'];
         $array['currency'] = $array['amount']['currency'];
