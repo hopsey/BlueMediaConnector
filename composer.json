@@ -1,7 +1,7 @@
 {
     "name": "hopsey/blue-media-connector",
     "description": "BlueMedia API PHP wrapper",
-    "version": "0.0.7",
+    "version": "0.6",
     "keywords": [
         "blue media"
     ],
