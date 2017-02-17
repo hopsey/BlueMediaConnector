@@ -30,6 +30,15 @@ class DateTime implements ValueObjectInterface
     }
 
     /**
+     * Zwraca surowy dateTime
+     * @return \DateTime
+     */
+    public function getRaw()
+    {
+        return $this->dateTime;
+    }
+
+    /**
      * @return string
      */
     public function toNative()
