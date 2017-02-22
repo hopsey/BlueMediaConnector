@@ -15,15 +15,13 @@ class Xml implements TransportInterface
 {
     public function decode($content)
     {
-        $content = str_ireplace(['SOAP-ENV:', 'SOAP:'], '', $content);
         $xml = simplexml_load_string($content, "SimpleXMLElement", LIBXML_NOCDATA);
-        $json = json_encode($xml);
-        $array = json_decode($json, true);
 
-        $row = $array['transactions']['transaction'];
-        $row['serviceID'] = $array['serviceID'];
-        $row['docHash'] = $array['hash'];
-        return $row;
+        $array = (array)$xml->transactions->transaction;
+
+        $array['serviceID'] = (string)$xml->serviceID;
+        $array['docHash'] = (string)$xml->hash;
+        return $array;
 
 
         // TODO ten fragment dotyczy tylko jednej wiadomości. nalezy to stad wyseparować, bo to uniwersalna klasa.

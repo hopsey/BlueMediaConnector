@@ -85,6 +85,11 @@ class ItnMessage extends AbstractMessage
     private $customerData = null;
 
     /**
+     * @var Amount
+     */
+    private $startAmount;
+
+    /**
      * @var Hash
      */
     private $docHash;
@@ -105,7 +110,7 @@ class ItnMessage extends AbstractMessage
      */
     public function __construct(IntegerNumber $serviceID, OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency, DateTime $paymentDate,
         PaymentStatus $paymentStatus, StringValue $paymentStatusDetails, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
-        CustomerData $customerData = null, Hash $docHash)
+        CustomerData $customerData = null, Hash $docHash, Amount $startAmount = null)
     {
         $this->serviceID = $serviceID;
         $this->orderID = $orderID;
@@ -120,6 +125,7 @@ class ItnMessage extends AbstractMessage
         $this->title = $title;
         $this->customerData = $customerData;
         $this->docHash = $docHash;
+        $this->startAmount = $startAmount;
     }
 
     protected function getArgsToComputeHash()

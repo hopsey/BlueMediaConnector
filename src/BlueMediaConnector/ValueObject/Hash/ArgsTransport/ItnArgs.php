@@ -18,7 +18,7 @@ class ItnArgs extends AbstractTransport
     protected function hashParamsOrder()
     {
         return ['serviceID', 'orderID', 'remoteID', 'amount', 'currency', 'gatewayID', 'paymentDate', 'paymentStatus', 'paymentStatusDetails',
-            'paymentStatusDetails', 'addressIP', 'title', 'customerData'];
+            'paymentStatusDetails', 'addressIP', 'title', 'customerData', 'startAmount'];
     }
 
     public function toArray()
