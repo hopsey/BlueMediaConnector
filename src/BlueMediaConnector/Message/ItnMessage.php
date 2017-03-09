@@ -109,7 +109,7 @@ class ItnMessage extends AbstractMessage
      * @param Hash $docHash
      */
     public function __construct(IntegerNumber $serviceID, OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency, DateTime $paymentDate,
-        PaymentStatus $paymentStatus, StringValue $paymentStatusDetails, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
+        PaymentStatus $paymentStatus, StringValue $paymentStatusDetails = null, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
         CustomerData $customerData = null, Hash $docHash, Amount $startAmount = null)
     {
         $this->serviceID = $serviceID;
