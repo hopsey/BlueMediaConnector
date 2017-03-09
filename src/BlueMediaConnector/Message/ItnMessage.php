@@ -108,7 +108,7 @@ class ItnMessage extends AbstractMessage
      * @param CustomerData|null $customerData
      * @param Hash $docHash
      */
-    public function __construct(IntegerNumber $serviceID, OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency, DateTime $paymentDate,
+    public function __construct(IntegerNumber $serviceID = null, OrderId $orderID, StringValue $remoteID, Amount $amount, Currency $currency, DateTime $paymentDate,
         PaymentStatus $paymentStatus, StringValue $paymentStatusDetails = null, IntegerNumber $gatewayID = null, StringValue $addressIP = null, StringValue $title = null,
         CustomerData $customerData = null, Hash $docHash, Amount $startAmount = null)
     {
